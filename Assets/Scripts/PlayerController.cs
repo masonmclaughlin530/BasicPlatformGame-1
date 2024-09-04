@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public float movementSpeed;
     public float jumpForce;
     private float inputHorizontal;
+    private int maxNumJumps;
+    private int numJumps;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +19,10 @@ public class PlayerController : MonoBehaviour
         //becuase the rigidbody2d is attached to the player and this script
         //is also attached to the player. 
         playerRigidBody = GetComponent<Rigidbody2D>();
+
+        maxNumJumps = 1;
+        numJumps = 1;
+
     }
 
     // Update is called once per frame
@@ -38,13 +44,48 @@ public class PlayerController : MonoBehaviour
 
         playerRigidBody.velocity = new Vector2(movementSpeed * inputHorizontal, playerRigidBody.velocity.y);
 
+        if(inputHorizontal != 0)
+        {
+            flipPlayerSprite(inputHorizontal);
+        }
+    }
+
+    private void flipPlayerSprite(float inputHorizontal)
+    {
+        if(inputHorizontal > 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if(inputHorizontal < 0)
+        {
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
     }
 
     private void jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && numJumps <= maxNumJumps)
         {
             playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, jumpForce);
+
+            numJumps++;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log(collision.gameObject);
+        if(collision.gameObject.CompareTag("Grounded"))
+        {
+            numJumps = 1;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("DoubleJump"))
+        {
+            maxNumJumps = 2;
         }
     }
 }
