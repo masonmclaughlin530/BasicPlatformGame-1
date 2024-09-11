@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -83,9 +84,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("DoubleJump"))
+        if (collision.gameObject.CompareTag("DoubleJump"))
         {
             maxNumJumps = 2;
+        }
+        else if (collision.gameObject.CompareTag("OB"))
+        {
+            //restart the level
+            SceneManager.LoadScene("Level01");
         }
     }
 }
