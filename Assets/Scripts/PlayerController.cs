@@ -76,9 +76,14 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log(collision.gameObject);
-        if(collision.gameObject.CompareTag("Grounded"))
+        if (collision.gameObject.CompareTag("Grounded"))
         {
             numJumps = 1;
+        }
+        else if (collision.gameObject.CompareTag("Bat"))
+        {
+            //restart the level
+            SceneManager.LoadScene("Level01");
         }
     }
 
