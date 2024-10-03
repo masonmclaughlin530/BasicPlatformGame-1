@@ -8,6 +8,7 @@ TagManager:
   - DoubleJump
   - OB
   - Bat
+  - Weapon
   layers:
   - Default
   - TransparentFX
