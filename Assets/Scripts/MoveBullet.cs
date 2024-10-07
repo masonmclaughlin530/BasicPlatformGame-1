@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveBullet : MonoBehaviour
 {
-    public float bulletDamage;
+    private float bulletDamage;
     public float bulletSpeed;
     public float bulletLife;
 
@@ -29,5 +29,33 @@ public class MoveBullet : MonoBehaviour
     {
         //Remove the bullet from the screen
         Destroy(this.gameObject);
+    }
+
+    public float getBulletDamage()
+    {
+        return bulletDamage;
+    }
+
+    public void setBulletDamage(float d)
+    {
+        bulletDamage = d; 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(!collision.gameObject.CompareTag("Weapon"))
+        {
+            destroyBullet();
+        }
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!collision.gameObject.CompareTag("Weapon"))
+        {
+            destroyBullet();
+        }
+
     }
 }
